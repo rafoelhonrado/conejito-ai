@@ -1,6 +1,5 @@
 """
 db.py
-
 Database configuration.
 """
 
