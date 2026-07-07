@@ -29,6 +29,30 @@ class FinanceBase(BaseModel):
 # Account
 # ============================================================
 
+class AccountItem(FinanceBase):
+
+    account_name: str = Field(
+        min_length=1,
+        max_length=80
+    )
+
+    account_bank: str = Field(
+        min_length=1,
+        max_length=80
+    )
+
+    currency: str = Field(
+        default="USD",
+        min_length=3,
+        max_length=3
+    )
+
+
+class CreateAccounts(FinanceBase):
+    action: Literal["create_accounts"]
+    accounts: list[AccountItem]
+
+
 class CreateAccount(FinanceBase):
 
     action: Literal["create_account"]
@@ -41,6 +65,12 @@ class CreateAccount(FinanceBase):
     account_bank: str = Field(
         min_length=1,
         max_length=80
+    )
+
+    currency: str = Field(
+        default="USD",
+        min_length=3,
+        max_length=3
     )
 
 
@@ -58,6 +88,12 @@ class UpdateAccount(FinanceBase):
     account_bank: str = Field(
         min_length=1,
         max_length=80
+    )
+
+    currency: str = Field(
+        default="USD",
+        min_length=3,
+        max_length=3
     )
 
 
@@ -264,6 +300,7 @@ class TopExpenses(FinanceBase):
 
 FinanceAction = Union[
     CreateAccount,
+    CreateAccounts,
     UpdateAccount,
     DeleteAccount,
     GetAccount,
