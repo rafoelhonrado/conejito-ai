@@ -92,14 +92,14 @@ def list_accounts(data=None):
         if not accounts:
             return "No accounts found."
 
-        lines = ["Accounts:"]
-
-        for a in accounts:
-            lines.append(
-                f"{a.account_id}. {a.account_name} - {a.account_bank}"
-            )
-
-        return "\n".join(lines)
+        return [
+            {
+                "ID": a.account_id,
+                "Account": a.account_name,
+                "Bank": a.account_bank,
+            }
+            for a in accounts
+        ]
 
 
 # ============================================================
