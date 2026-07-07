@@ -29,10 +29,10 @@ def create_account(data):
 
         if existing:
             return f"Account already exists: {data.account_name}"
-
         account = Account(
             account_name=data.account_name,
-            account_bank=data.account_bank
+            account_bank=data.account_bank,
+            currency=data.currency,
         )
 
         session.add(account)
@@ -40,6 +40,53 @@ def create_account(data):
 
         return f"Account created: {account.account_name} at {account.account_bank}"
 
+
+def create_accounts(data):
+    with get_session() as session:
+
+        results = []
+
+        for item in data.accounts:
+
+            existing = session.scalar(
+                select(Account).where(
+                    Account.account_name == item.account_name
+                )
+            )
+
+            if existing:
+                results.append(
+                    {
+                        "Account": existing.account_name,
+                        "Bank": existing.account_bank,
+                        "Currency": existing.currency,
+                        "Status": "Already exists",
+                    }
+                )
+                continue
+
+            currency = getattr(item, "currency", "USD")
+
+            account = Account(
+                account_name=item.account_name,
+                account_bank=item.account_bank,
+                currency=currency,
+            )
+
+            session.add(account)
+
+            results.append(
+                {
+                    "Account": item.account_name,
+                    "Bank": item.account_bank,
+                    "Currency": currency,
+                    "Status": "Created",
+                }
+            )
+
+        session.commit()
+
+        return results
 
 def update_account(data):
     with get_session() as session:
@@ -50,6 +97,7 @@ def update_account(data):
 
         account.account_name = data.account_name
         account.account_bank = data.account_bank
+        account.currency = data.currency
 
         session.commit()
 
@@ -97,6 +145,7 @@ def list_accounts(data=None):
                 "ID": a.account_id,
                 "Account": a.account_name,
                 "Bank": a.account_bank,
+                "Currency": a.currency
             }
             for a in accounts
         ]
@@ -153,18 +202,20 @@ def delete_category(data):
 def list_categories(data=None):
     with get_session() as session:
         categories = session.scalars(
-            select(Category).order_by(Category.category_name)
+            select(Category)
+            .order_by(Category.category_name)
         ).all()
 
         if not categories:
             return "No categories found."
 
-        lines = ["Categories:"]
-
-        for c in categories:
-            lines.append(f"{c.category_id}. {c.category_name}")
-
-        return "\n".join(lines)
+        return [
+            {
+                "ID": c.category_id,
+                "Category": c.category_name,
+            }
+            for c in categories
+        ]
 
 
 # ============================================================
