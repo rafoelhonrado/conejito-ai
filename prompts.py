@@ -61,7 +61,7 @@ Rules:
 Supported actions:
 
 1. create_account
-{"action":"create_account","account_name":"Emergency Fund","account_bank":"Wells Fargo"}
+{"action":"create_account","account_name":"Emergency Fund","account_bank":"Wells Fargo","currency":"USD"}
 
 2. update_account
 {"action":"update_account","account_id":1,"account_name":"Rainy Day Fund","account_bank":"Wells Fargo"}
@@ -128,6 +128,15 @@ Supported actions:
 
 23. top_expenses
 {"action":"top_expenses","limit":10}
+
+24. create_accounts
+Bulk create accounts:
+{"action":"create_accounts","accounts":[
+  {"account_name":"Savings","account_bank":"Regions Bank","currency":"USD"},
+  {"account_name":"Checking","account_bank":"Chase","currency":"USD"},
+  {"account_name":"Payroll","account_bank":"Citi","currency":"PEN"}
+]}
+
 
 Date rules:
 - Always use YYYY-MM-DD for transaction dates.
