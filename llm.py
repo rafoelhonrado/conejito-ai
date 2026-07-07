@@ -1,11 +1,9 @@
 """
 llm.py
-
 Loads the local GGUF model using llama.cpp.
 """
 
 import os
-
 from dotenv import load_dotenv
 from llama_cpp import Llama
 
@@ -38,29 +36,22 @@ print(MODEL_PATH)
 
 llm = Llama(
     model_path=MODEL_PATH,
-
     # Context
     n_ctx=4096,
-
     # CPU Threads
     n_threads=os.cpu_count(),
-
     # GPU
     n_gpu_layers=0,
-
     # Performance
     n_batch=512,
-
     # Sampling
     temperature=0.0,
     top_p=0.95,
-
     # Faster
     verbose=False
 )
 
 print("Model loaded successfully.\n")
-
 
 # ============================================================
 # Chat Function
@@ -73,12 +64,9 @@ def chat(
 ):
     """
     Send a prompt to the local LLM.
-
     Returns the assistant text.
     """
-
     response = llm.create_chat_completion(
-
         messages=[
             {
                 "role": "system",
@@ -97,9 +85,7 @@ def chat(
         response_format={
             "type": "json_object"
         }
-
     )
-
     return response["choices"][0]["message"]["content"]
 
 
