@@ -50,6 +50,12 @@ class Account(Base):
         nullable=False
     )
 
+    currency: Mapped[str] = mapped_column(
+        String(3),
+        nullable=False,
+        default="USD"
+    )
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.utcnow
@@ -59,15 +65,6 @@ class Account(Base):
         back_populates="account",
         cascade="all, delete-orphan"
     )
-
-    def __repr__(self):
-
-        return (
-            f"<Account("
-            f"id={self.account_id}, "
-            f"name='{self.account_name}', "
-            f"bank='{self.account_bank}')>"
-        )
 
 
 # ============================================================
