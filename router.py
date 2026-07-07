@@ -6,6 +6,7 @@ Routes validated finance actions to the correct tool function.
 
 from tools import (
     create_account,
+    create_accounts,
     update_account,
     delete_account,
     get_account,
@@ -32,6 +33,7 @@ from tools import (
 
 ACTION_MAP = {
     "create_account": create_account,
+    "create_accounts": create_accounts,
     "update_account": update_account,
     "delete_account": delete_account,
     "get_account": get_account,
